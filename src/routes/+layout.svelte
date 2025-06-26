@@ -44,7 +44,7 @@
 	<!-- Theme Toggle Button -->
 	<button
 		onclick={toggleTheme}
-		class="fixed bottom-6 left-6 z-40 rounded-full p-3 {darkMode
+		class="fixed bottom-6 left-6 z-40 hidden rounded-full p-3 lg:block {darkMode
 			? 'glass-dark text-white'
 			: 'glass text-gray-800'} animate-pulse-glow transition-all duration-300 hover:scale-110"
 		aria-label="Toggle theme"
