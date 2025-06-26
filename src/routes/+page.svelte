@@ -16,7 +16,31 @@
 </script>
 
 <svelte:head>
-	<title>Venti AI - Asisten AI Cerdas untuk SAFATANC GROUP</title>
+	<title>Venti AI - Intelligent Assistant SAFATANC GROUP</title>
+	<meta name="description" content="Intelligent Assistant SAFATANC GROUP" />
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Venti AI - Intelligent Assistant SAFATANC GROUP" />
+	<meta property="og:description" content="Intelligent Assistant SAFATANC GROUP" />
+	<meta property="og:site_name" content="PT SAFATANC TECHNOLOGY DIGITAL" />
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:title" content="Venti AI - Intelligent Assistant SAFATANC GROUP" />
+	<meta name="twitter:description" content="Intelligent Assistant SAFATANC GROUP" />
+
+	<!-- Additional Meta -->
+	<meta
+		name="keywords"
+		content="Venti AI, SAFATANC GROUP, GetLayar, GSalt, Tipspace, Parkingo, GPrestore, Safatanc Connect, AI Assistant, Digital Solutions"
+	/>
+	<meta name="author" content="PT SAFATANC TECHNOLOGY DIGITAL" />
+	<meta name="robots" content="index, follow" />
+	<meta name="language" content="id" />
+
+	<!-- Canonical URL -->
+	<link rel="canonical" href="https://venti.safatanc.com" />
 </svelte:head>
 
 <div
