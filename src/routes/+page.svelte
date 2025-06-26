@@ -61,7 +61,7 @@
 					href="/chat"
 					class="bg-primary hover:bg-primary/90 rounded-3xl px-5 py-2 font-medium text-black transition"
 				>
-					Start Chat
+					#AskVenti
 				</a>
 			</div>
 		</div>
@@ -91,7 +91,7 @@
 				href="/chat"
 				class="bg-primary hover:bg-primary/90 mt-8 inline-flex items-center rounded-3xl px-6 py-2.5 font-medium text-black transition"
 			>
-				Start Chat
+				Start #AskVenti
 			</a>
 		</div>
 
@@ -120,7 +120,7 @@
 		</div>
 
 		<!-- Company Copyright -->
-		<div class="mx-auto mt-32 max-w-7xl px-6">
+		<div class="mx-auto max-w-7xl px-6 py-32">
 			<p
 				class="text-center text-xs tracking-wider uppercase {darkMode
 					? 'text-gray-600'

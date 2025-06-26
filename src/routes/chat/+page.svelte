@@ -20,21 +20,25 @@
 	let isConnected = $state(false);
 	let isTyping = $state(false);
 	let sessionId = $state('');
-	let chatContainer: HTMLElement;
+	let chatContainer: HTMLDivElement;
+	let messageEnd: HTMLDivElement;
 	let mounted = $state(false);
 	let reconnectAttempts = $state(0);
 	const darkMode = $derived($isDark);
+
+	function scrollToBottom() {
+		if (!messageEnd) return;
+		messageEnd.scrollIntoView({ behavior: 'smooth' });
+	}
 
 	function toggleTheme() {
 		isDark.update((value) => !value);
 	}
 
-	// Auto-scroll to bottom when messages change
+	// Watch for changes that should trigger scrolling
 	$effect(() => {
-		if (chatContainer && messages.length > 0) {
-			setTimeout(() => {
-				chatContainer.scrollTop = chatContainer.scrollHeight;
-			}, 100);
+		if (messages.length > 0 || isTyping) {
+			setTimeout(scrollToBottom, 100);
 		}
 	});
 
@@ -161,6 +165,7 @@
 
 	function addMessage(message: Message) {
 		messages = [...messages, message];
+		scrollToBottom();
 	}
 
 	function updateLastMessage(chunk: string, model?: string, sessionIdFromResponse?: string) {
@@ -187,6 +192,7 @@
 				}
 				return msg;
 			});
+			scrollToBottom();
 		}
 	}
 
@@ -256,7 +262,7 @@
 </svelte:head>
 
 <div
-	class="flex min-h-screen flex-col transition-all duration-500 {darkMode
+	class="flex h-full min-h-screen flex-col transition-all duration-500 {darkMode
 		? 'bg-black'
 		: 'bg-white'}"
 >
@@ -315,8 +321,8 @@
 	</header>
 
 	<!-- Chat Messages -->
-	<div class="flex-1 overflow-hidden">
-		<div bind:this={chatContainer} class="h-full space-y-4 overflow-y-auto p-4">
+	<div class="flex-1 overflow-hidden pb-16">
+		<div bind:this={chatContainer} class="h-full space-y-4 overflow-y-auto p-4 pb-16">
 			<div class="mx-auto max-w-4xl space-y-4">
 				{#each messages as message (message.id)}
 					<div class="flex {message.isUser ? 'justify-end' : 'justify-start'}">
@@ -396,15 +402,22 @@
 						</div>
 					</div>
 				{/if}
+
+				<!-- Invisible element to scroll to -->
+				<div bind:this={messageEnd}></div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Input Area -->
-	<div class="border-t {darkMode ? 'border-white/5' : 'border-gray-200/10'} p-4 pb-16">
+	<div
+		class="border-t {darkMode
+			? 'border-white/5 bg-black'
+			: 'border-gray-200/10 bg-white'} fixed right-0 bottom-0 left-0 p-4 pb-16"
+	>
 		<div class="mx-auto max-w-4xl">
 			<div class="flex items-end gap-4">
-				<div class="flex-1">
+				<div class="w-full">
 					<textarea
 						bind:value={inputText}
 						onkeydown={handleKeyPress}
@@ -418,7 +431,7 @@
 				<button
 					onclick={sendMessage}
 					disabled={!inputText.trim() || !isConnected}
-					class="bg-primary hover:bg-primary/90 rounded-3xl px-5 py-2 text-black transition disabled:cursor-not-allowed disabled:opacity-50"
+					class="bg-primary hover:bg-primary/90 flex h-full items-center justify-center rounded-3xl px-5 py-2 text-black transition disabled:cursor-not-allowed disabled:opacity-50"
 					title={isConnected ? 'Kirim pesan' : 'Tidak terhubung'}
 				>
 					<Icon icon="tabler:send" class="h-6 w-6" />
