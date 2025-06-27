@@ -1,42 +1,15 @@
-import { readFileSync } from 'fs';
-import path from 'path';
 import type { PageServerLoad } from './$types';
-
-export type Member = {
-	id: string;
-	name: string;
-	full_name: string;
-	nickname: string[];
-	birth_place: string;
-	birth_date: string;
-	generation: string;
-	introduction_phrase: string;
-	profile_picture_url: string;
-	join_details_jkt48?: string;
-	promoted_details_jkt48?: string;
-	previous_formation?: string;
-	sub_unit?: string;
-	fanbase_name?: string;
-	reference?: string;
-	social_media?: { [key: string]: string };
-};
+import { JKT48_MEMBERS, type Member } from '$lib/data/jkt48';
 
 export const load: PageServerLoad = async ({
-	params,
-	fetch
+	params
 }: {
 	params: { id: string };
 	fetch: typeof window.fetch;
 }) => {
-	const { id } = params;
+	const members: Member[] = JKT48_MEMBERS;
 
-	const projectRoot = process.cwd();
-	const filePath = path.join(projectRoot, 'static', 'jkt48_members.json');
-
-	const fileContents = readFileSync(filePath, 'utf-8');
-	const data: Member[] = JSON.parse(fileContents);
-
-	const member = data.find((member: Member) => member.id === id);
+	const member = members.find((member: Member) => member.id === params.id);
 
 	return {
 		member

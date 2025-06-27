@@ -1,22 +1,15 @@
-FROM oven/bun:1 AS builder
+FROM oven/bun AS builder
 
 WORKDIR /app
 
-COPY package.json bun.lockb ./
-RUN bun install --frozen-lockfile
-
 COPY . .
 
+RUN bun i
 RUN bun run build
 
-FROM oven/bun:1-alpine
+FROM oven/bun
 
-WORKDIR /home/bun/app
-
-COPY --from=builder /app/.svelte-kit/output /home/bun/app/
-
-RUN chown -R bun:bun /home/bun/app
-USER bun
+COPY --from=builder /app/build .
 
 EXPOSE 3000
 

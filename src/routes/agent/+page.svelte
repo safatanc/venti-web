@@ -18,7 +18,7 @@
 		const searchQuery = input.value.toLowerCase();
 
 		members = data.members.filter((member) => {
-			return member.full_name.toLowerCase().includes(searchQuery);
+			return member.full_name?.toLowerCase().includes(searchQuery);
 		});
 	}
 </script>
