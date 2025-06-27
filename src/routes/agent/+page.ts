@@ -18,7 +18,7 @@ export type Member = {
 };
 
 export const load = async ({ fetch }: { fetch: typeof window.fetch }) => {
-	const response = await fetch(`/jkt48_members.json`);
+	const response = await fetch(`https://venti.safatanc.com/jkt48_members.json`);
 	const data: Member[] = await response.json();
 
 	return {

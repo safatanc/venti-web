@@ -26,7 +26,7 @@ export const load = async ({
 }) => {
 	const { id } = params;
 
-	const response = await fetch(`/jkt48_members.json`);
+	const response = await fetch(`https://venti.safatanc.com/jkt48_members.json`);
 	const data = await response.json();
 
 	const member: Member = data.find((member: Member) => member.id === id);
