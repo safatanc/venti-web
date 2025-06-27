@@ -4,9 +4,14 @@
 	import { addNotification, chatConnection, isDark } from '$lib/stores.js';
 	import Icon from '@iconify/svelte';
 	import { PUBLIC_VENTI_WS_URL } from '$env/static/public';
+	import { goto } from '$app/navigation';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
+
+	if (!data.member) {
+		goto('/agent');
+	}
 
 	type Message = {
 		id: string;
@@ -64,7 +69,7 @@
 		// Add welcome message
 		addMessage({
 			id: generateId(),
-			text: `Halo... Aku ${data.member.name}, Ada apa nih kak?`,
+			text: `Halo... Aku ${data.member?.name}, Ada apa nih kak?`,
 			isUser: false,
 			timestamp: new Date()
 		});
@@ -225,7 +230,7 @@
 		} = {
 			message: inputText.trim(),
 			session_id: sessionId,
-			additional_system_prompt: `Sekarang kamu bukan Venti AI, kamu adalah ${data.member.name} dari JKT48, kamu harus berbicara seperti dia. Ini adalah informasi kamu: ${JSON.stringify(data.member)}`
+			additional_system_prompt: `Sekarang kamu bukan Venti AI, kamu adalah ${data.member?.name} dari JKT48, kamu harus berbicara seperti dia. Ini adalah informasi kamu: ${JSON.stringify(data.member)}`
 		};
 
 		try {
@@ -267,20 +272,20 @@
 </script>
 
 <svelte:head>
-	<title>Venti AI - {data.member.name}</title>
-	<meta name="description" content={`Agent ${data.member.name}`} />
+	<title>Venti AI - {data.member?.name}</title>
+	<meta name="description" content={`Agent ${data.member?.name}`} />
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website" />
-	<meta property="og:title" content={`Venti AI - ${data.member.name}`} />
-	<meta property="og:description" content={`Agent ${data.member.name}`} />
+	<meta property="og:title" content={`Venti AI - ${data.member?.name}`} />
+	<meta property="og:description" content={`Agent ${data.member?.name}`} />
 	<meta property="og:site_name" content="PT SAFATANC TECHNOLOGY DIGITAL" />
 
 	<!-- Twitter -->
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content={`Venti AI - ${data.member.name}`} />
-	<meta name="twitter:description" content={`Agent ${data.member.name}`} />
-	<meta name="twitter:image" content={data.member.profile_picture_url} />
+	<meta name="twitter:title" content={`Venti AI - ${data.member?.name}`} />
+	<meta name="twitter:description" content={`Agent ${data.member?.name}`} />
+	<meta name="twitter:image" content={data.member?.profile_picture_url} />
 	<!-- Additional Meta -->
 	<meta
 		name="keywords"
@@ -308,14 +313,14 @@
 						class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-3xl bg-white"
 					>
 						<img
-							src={data.member.profile_picture_url}
-							alt={data.member.name}
+							src={data.member?.profile_picture_url}
+							alt={data.member?.name}
 							class="h-full w-full object-contain"
 						/>
 					</div>
 					<div>
 						<h1 class="text-xl font-medium {darkMode ? 'text-white' : 'text-gray-900'}">
-							{data.member.name}
+							{data.member?.name}
 						</h1>
 						<div class="flex items-center gap-2 text-xs">
 							<div class="h-2 w-2 rounded-full {isConnected ? 'bg-green-400' : 'bg-red-400'}"></div>
@@ -379,8 +384,8 @@
 										<Icon icon="tabler:user" class="h-4 w-4 text-black" />
 									{:else}
 										<img
-											src={data.member.profile_picture_url}
-											alt={data.member.name}
+											src={data.member?.profile_picture_url}
+											alt={data.member?.name}
 											class="h-full w-full bg-white object-contain"
 										/>
 									{/if}

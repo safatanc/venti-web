@@ -1,3 +1,7 @@
+import { readFileSync } from 'fs';
+import path from 'path';
+import type { PageServerLoad } from './$types';
+
 export type Member = {
 	id: string;
 	name: string;
@@ -17,22 +21,14 @@ export type Member = {
 	social_media?: { [key: string]: string };
 };
 
-export const load = async ({
-	params,
-	fetch
-}: {
-	params: { id: string };
-	fetch: typeof window.fetch;
-}) => {
-	const { id } = params;
+export const load: PageServerLoad = async () => {
+	const projectRoot = process.cwd();
+	const filePath = path.join(projectRoot, 'static', 'jkt48_members.json');
 
-	const response = await fetch(`https://venti.safatanc.com/jkt48_members.json`);
-	const data = await response.json();
-
-	const member: Member = data.find((member: Member) => member.id === id);
+	const fileContents = readFileSync(filePath, 'utf-8');
+	const data: Member[] = JSON.parse(fileContents);
 
 	return {
-		id,
-		member
+		members: data
 	};
 };
